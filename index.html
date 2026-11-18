@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Uniform Circular Motion | Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&family=Barlow+Semi+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --space:#070d1c; --deep:#0c1630; --panel:#111d3a; --line:#26365e;
+  --moon:#ecebe6; --text:#d9dee9; --dim:#9aa6bd;
+  --blue:#4a8ae0; --blue-deep:#2a5fb0; --orange:#f2a23a;
+  --display:"Black Ops One","Impact","Arial Black",sans-serif;
+  --body:"Barlow","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --cond:"Barlow Semi Condensed","Arial Narrow","Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(60px + env(safe-area-inset-top,0px))}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--space);color:var(--text);font:400 1.06rem/1.6 var(--body);padding-bottom:env(safe-area-inset-bottom,0px);
+  background-image:radial-gradient(1px 1px at 12% 18%,#fff8 50%,transparent 51%),radial-gradient(1px 1px at 72% 9%,#fff6 50%,transparent 51%),
+  radial-gradient(1.5px 1.5px at 38% 62%,#fff5 50%,transparent 51%),radial-gradient(1px 1px at 88% 44%,#fff7 50%,transparent 51%),
+  radial-gradient(1px 1px at 22% 83%,#fff5 50%,transparent 51%);background-size:420px 420px;background-attachment:fixed}
+a{color:#8fb8f0}
+a:focus-visible,button:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+
+.bar{position:sticky;top:0;z-index:20;background:#070d1ce8;backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.bar-in{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:1rem;padding:.55rem 1.2rem}
+.brand{font-family:var(--display);color:var(--moon);white-space:nowrap}
+.bar nav{display:flex;gap:.3rem;overflow-x:auto;flex:1}
+.bar nav a{font:600 .85rem/1 var(--cond);color:var(--dim);text-decoration:none;padding:.45rem .55rem;border:1px solid transparent;border-radius:4px;white-space:nowrap}
+.bar nav a:hover{color:var(--moon);border-color:var(--line)}
+
+.hero{max-width:960px;margin:0 auto;padding:3rem 1.2rem 2rem}
+.series{font:600 .95rem/1.2 var(--cond);color:var(--dim);letter-spacing:.14em;display:flex;align-items:center;gap:.7rem;margin:0 0 .8rem}
+.series::before,.series::after{content:"";height:2px;width:46px;background:linear-gradient(90deg,transparent,var(--blue))}
+.series::after{background:linear-gradient(90deg,var(--blue),transparent)}
+.star{color:var(--blue)}
+h1{font-family:var(--display);font-weight:400;color:var(--moon);margin:0;line-height:.95;font-size:clamp(2.4rem,6.5vw,4.6rem);text-shadow:0 3px 0 #9a9890,0 6px 18px #000a}
+.h1-sub{display:block;font-size:.42em;color:var(--dim);text-shadow:none;margin-top:.5rem;letter-spacing:.05em}
+.intro{max-width:700px;margin:1.2rem 0 0;color:var(--moon)}
+
+main{max-width:960px;margin:0 auto;padding:0 1.2rem 4rem}
+section{border-top:1px solid var(--line);padding:2.2rem 0 .8rem;display:grid;grid-template-columns:80px 1fr;gap:1.2rem}
+.num{font-family:var(--display);font-size:3rem;line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--orange)}
+@media (max-width:680px){section{grid-template-columns:1fr;gap:.2rem}.num{font-size:2.2rem}}
+.content{max-width:720px;min-width:0}
+h2{font-family:var(--display);font-weight:400;color:var(--moon);font-size:clamp(1.5rem,3.2vw,2rem);line-height:1.1;margin:0 0 .7rem}
+h3{font:700 1.08rem/1.3 var(--cond);color:var(--moon);margin:1.3rem 0 .4rem}
+p{margin:.45rem 0 .85rem}
+.watch{margin:1rem 0;padding:.65rem 1rem;border-left:3px solid var(--blue);background:#0d1a36;font-style:italic}
+.watch b{font-style:normal;color:var(--moon)}
+.eq{font-family:"Cambria Math","Times New Roman",serif;color:var(--moon);font-size:1.6rem;text-align:center;margin:1rem 0;padding:.9rem;border:1px dashed var(--line);border-radius:8px}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .2rem}
+.frac span:first-child{border-bottom:2px solid var(--moon);padding:0 .3rem}
+.tbl{overflow-x:auto;margin:.7rem 0}
+table{border-collapse:collapse;width:100%;font-size:.98rem}
+th,td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top}
+th{background:var(--panel);font:700 .95rem/1.3 var(--cond);color:var(--moon)}
+dl.guess dt{font:700 .98rem/1.3 var(--cond);color:var(--orange);margin-top:.4rem}
+dl.guess dd{margin:.1rem 0 .3rem}
+figure{margin:1rem 0;text-align:center}
+figure svg{max-width:300px;width:100%;height:auto}
+figcaption{font-size:.9rem;color:var(--dim);font-style:italic}
+
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;margin:1rem 0}
+.chain .node{font-family:"Cambria Math","Times New Roman",serif;font-size:1.3rem;color:var(--moon);border:2px solid var(--orange);border-radius:8px;padding:.35rem .8rem;white-space:nowrap}
+.chain .link{display:flex;flex-direction:column;align-items:center;font-size:.92rem;color:var(--text);white-space:nowrap}
+.chain .link::after{content:"\2192";font-size:1.5rem;line-height:1;color:var(--orange)}
+ul.steps{margin:.4rem 0 .8rem;padding-left:1.3rem}
+ul.steps li{margin:.2rem 0}
+@media (max-width:680px){.chain{flex-direction:column;align-items:flex-start}.chain .link::after{content:"\2193"}}
+ol.submit{margin:.4rem 0 .8rem;padding-left:1.4rem}
+ol.submit li{margin:.35rem 0;padding-left:.2rem}
+.more{margin:1.2rem 0 .4rem}
+.more-h{font:700 .95rem/1.2 var(--cond);color:var(--dim);margin:0 0 .4rem}
+.media{margin:.5rem 0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#050a16}
+.media-head{display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:center;justify-content:space-between;padding:.6rem .9rem;background:var(--panel)}
+.media-head .t{font:700 1rem/1.3 var(--cond);color:var(--moon)}
+.media-head .s{display:block;font:400 .86rem var(--body);color:var(--dim)}
+.btns{display:flex;gap:.5rem;flex-wrap:wrap}
+button,.btn{font:700 .9rem/1 var(--cond);color:var(--moon);background:var(--blue-deep);border:1px solid var(--blue);border-radius:4px;padding:.55rem .85rem;cursor:pointer;text-decoration:none;display:inline-block}
+button:hover,.btn:hover{background:var(--blue)}
+.btn.ghost{background:transparent;border-color:var(--line);color:var(--text)}
+.frame{position:relative;aspect-ratio:16/9}
+.frame.tall{aspect-ratio:4/3}
+.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+footer{max-width:960px;margin:0 auto;padding:1.8rem 1.2rem 3rem;color:var(--dim);font-size:.9rem;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header class="bar"><div class="bar-in">
+  <span class="brand">5.1 Notes</span>
+  <nav aria-label="Notes sections">
+    <a href="#n1">1 Bucket</a><a href="#n2">2 Velocity</a><a href="#n3">3 Acceleration</a>
+    <a href="#n4">4 Force</a><a href="#n5">5 Equations</a><a href="#n6">6 Bucket again</a><a href="#submit">Submit</a>
+  </nav>
+</div></header>
+
+<div class="hero">
+  <p class="series"><span class="star">★</span> PHYSICS: FROM EARTH TO THE MOON AND BEYOND <span class="star">★</span></p>
+  <h1>Uniform Circular Motion<span class="h1-sub">Lesson 5.1 notes</span></h1>
+  <p class="intro">Section numbers match the boxes in your guided notes. Videos and simulations are available in some sections. Use them to see an idea in action or to hear it explained another way.</p>
+</div>
+
+<main>
+
+<section id="n1"><div class="num">1</div><div class="content">
+  <h2>The swinging bucket</h2>
+  <p>Fill a bucket with water and swing it in a big vertical circle. At the top, the bucket is upside down, yet the water stays in. If you swing too slowly, you get soaked.</p>
+  <p>Write your first explanation now. By the end of these notes you will be able to calculate the slowest speed that keeps the water in.</p>
+  <div class="more"><p class="more-h">Videos and simulations</p>
+    <div class="media" data-yt="Zulw5bQ18Kk" data-title="Why Water Stays in a Bucket Revolving in a Vertical Circle" data-sub="Video, Flipping Physics"></div>
+  </div>
+</div></section>
+
+<section id="n2"><div class="num">2</div><div class="content">
+  <h2>Velocity in a circle</h2>
+  <p><b>Uniform circular motion</b> is motion in a circle with a constant radius at a constant speed.</p>
+  <p>At every instant, the object's velocity points <b>tangent</b> to the circle. A tangent line touches the circle at one point and is <b>perpendicular</b> to the radius there. This velocity is called the <b>tangential velocity</b>, v<sub>t</sub>.</p>
+  <p>If the string breaks, nothing pulls the ball toward the center anymore. It flies off in a <b>straight line</b> along the tangent, because of inertia.</p>
+  <figure>
+    <svg viewBox="0 0 240 220" role="img" aria-label="A ball on a circle. The velocity arrow v points along the tangent. The acceleration arrow a points toward the center.">
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker></defs>
+      <circle cx="120" cy="120" r="80" fill="none" stroke="#9aa6bd" stroke-width="1.5"/>
+      <circle cx="120" cy="120" r="3" fill="#9aa6bd"/>
+      <line x1="40" y1="120" x2="120" y2="120" stroke="#9aa6bd" stroke-dasharray="4 4"/>
+      <line x1="40" y1="120" x2="40" y2="40" stroke="#ecebe6" stroke-width="2.5" marker-end="url(#ah)"/>
+      <line x1="40" y1="120" x2="90" y2="120" stroke="#f2a23a" stroke-width="2.5" marker-end="url(#ah)"/>
+      <circle cx="40" cy="120" r="9" fill="#ecebe6"/>
+      <text x="48" y="52" fill="#ecebe6" font-size="16" font-style="italic" font-family="serif">v</text>
+      <text x="78" y="112" fill="#f2a23a" font-size="16" font-style="italic" font-family="serif">a</text>
+      <text x="126" y="136" fill="#9aa6bd" font-size="12" font-family="sans-serif">center</text>
+    </svg>
+    <figcaption>v is tangent to the path. a points to the center. They are perpendicular.</figcaption>
+  </figure>
+</div></section>
+
+<section id="n3"><div class="num">3</div><div class="content">
+  <h2>Accelerating at constant speed</h2>
+  <p>Velocity has a size and a direction. An object accelerates when its speed changes <b>or</b> its direction changes.</p>
+  <p>In uniform circular motion the speed stays the same, but the direction changes every instant. So the object is always accelerating. This is <b>centripetal acceleration</b>, a<sub>c</sub>. "Centripetal" means center seeking. It always points toward the <b>center</b> of the circle, perpendicular to the velocity.</p>
+  <div class="watch"><b>Watch out:</b> constant speed does not mean zero acceleration. A change in direction is a change in velocity.</div>
+  <div class="more"><p class="more-h">Videos and simulations</p>
+    <div class="media" data-yt="bpFK2VCRHUs" data-title="Uniform Circular Motion: Crash Course Physics #7" data-sub="Video, covers sections 2 through 5"></div>
+  </div>
+</div></section>
+
+<section id="n4"><div class="num">4</div><div class="content">
+  <h2>Centripetal force</h2>
+  <p>Newton's second law says the net force points the same way as the acceleration. So an object moving in a circle needs a net force toward the center. That net force is called the <b>centripetal force</b>, F<sub>c</sub>.</p>
+  <p>Centripetal force is not a new kind of force. It is a job, and a real force has to do it.</p>
+  <div class="tbl"><table>
+    <tr><th>Situation</th><th>Force that does the job</th></tr>
+    <tr><td>Ball swung on a string</td><td>Tension in the string</td></tr>
+    <tr><td>Car turning on a flat road</td><td>Friction between tires and road</td></tr>
+    <tr><td>Moon orbiting Earth</td><td>Gravity</td></tr>
+  </table></div>
+  <p>The Moon is always falling toward Earth. It also moves sideways fast enough that it keeps missing. You will calculate gravity's pull in the next lesson.</p>
+  <div class="watch"><b>Watch out:</b> "centrifugal force" is not a real force. When a car turns left, you feel pushed right. Nothing pushes you. Your body keeps going straight because of inertia while the car turns under you. The feeling is always opposite the net force.</div>
+  <div class="more"><p class="more-h">Videos and simulations</p>
+    <div class="media" data-sim="https://phet.colorado.edu/sims/html/gravity-and-orbits/latest/gravity-and-orbits_en.html" data-title="Gravity and Orbits" data-sub="PhET simulation, turn gravity off and watch the path"></div>
+  </div>
+</div></section>
+
+<section id="n5"><div class="num">5</div><div class="content">
+  <h2>The equations</h2>
+  <p>The <b>period</b>, T, is the time for one full trip around the circle. In one trip the object travels one circumference, 2&pi;r.</p>
+  <div class="tbl"><table>
+    <tr><th>Symbol</th><th>Meaning</th><th>Unit</th></tr>
+    <tr><td>v<sub>t</sub></td><td>tangential velocity</td><td>m/s</td></tr>
+    <tr><td>r</td><td>radius of the circle</td><td>m</td></tr>
+    <tr><td>T</td><td>period</td><td>s</td></tr>
+    <tr><td>a<sub>c</sub></td><td>centripetal acceleration</td><td>m/s²</td></tr>
+    <tr><td>F<sub>c</sub></td><td>centripetal force</td><td>N</td></tr>
+    <tr><td>m</td><td>mass</td><td>kg</td></tr>
+  </table></div>
+  <h3>The equation chain</h3>
+  <p>The three equations link together. Each one takes you one step along the chain.</p>
+  <div class="chain" role="img" aria-label="Equation chain: T and r lead to tangential velocity using v equals 2 pi r over T. Tangential velocity leads to centripetal acceleration using a equals v squared over r. Centripetal acceleration leads to centripetal force using F equals m a.">
+    <div class="node">T, r</div>
+    <div class="link"><span>v<sub>t</sub> = 2&pi;r / T</span></div>
+    <div class="node">v<sub>t</sub></div>
+    <div class="link"><span>a<sub>c</sub> = v<sub>t</sub>² / r</span></div>
+    <div class="node">a<sub>c</sub></div>
+    <div class="link"><span>F<sub>c</sub> = m a<sub>c</sub></span></div>
+    <div class="node">F<sub>c</sub></div>
+  </div>
+  <h3>How to pick the equation</h3>
+  <ul class="steps">
+    <li>Find your <b>unknown</b> on the chain.</li>
+    <li>Find what you were <b>given</b> on the chain.</li>
+    <li>Walk from the given to the unknown. Use one equation for each step.</li>
+  </ul>
+  <h3>Worked example: a car on a curve</h3>
+  <p>A 1200 kg car drives around a flat curve with a radius of 50 m at 15 m/s. How much friction force does the road need to supply?</p>
+  <dl class="guess">
+    <dt>Draw it</dt><dd>Top view: the car on a circle, r = 50 m to the center, v = 15 m/s along the tangent, and F<sub>c</sub> = ? pointing to the center.</dd>
+    <dt>Name it</dt><dd>Friction is the centripetal force. I want F<sub>c</sub>. I was given v<sub>t</sub>, r, and m. On the chain, v<sub>t</sub> is two steps from F<sub>c</sub>: v<sub>t</sub> &rarr; a<sub>c</sub> &rarr; F<sub>c</sub>.</dd>
+    <dt>Solve it</dt><dd>a<sub>c</sub> = (15 m/s)² / 50 m = 4.5 m/s²<br>F<sub>c</sub> = (1200 kg)(4.5 m/s²) = <b>5400 N</b></dd>
+    <dt>Check it</dt><dd>Newtons, so the unit is right. The car weighs about 12,000 N, so 5400 N of friction is a believable amount for a dry road.</dd>
+  </dl>
+  <p>If the road can't supply 5400 N of friction (ice, for example), the car slides off in a straight line.</p>
+  <div class="watch"><b>Watch out:</b> if you were given T, you have to start at the very beginning of the chain and find v<sub>t</sub> first.</div>
+</div></section>
+
+<section id="n6"><div class="num">6</div><div class="content">
+  <h2>The bucket, revisited</h2>
+  <p>At the top of the swing, gravity points down, which is toward the center. Swing slowly and gravity is more than enough to pull the water down. It falls out.</p>
+  <p>The slowest speed that works is when gravity <b>alone</b> supplies exactly the centripetal force:</p>
+  <div class="eq">mg = <span class="frac"><span>m v<sup>2</sup></span><span>r</span></span> &nbsp;&nbsp;so&nbsp;&nbsp; v<sub>min</sub> = &radic;(gr)</div>
+  <p>The mass cancels, so the amount of water does not matter.</p>
+  <h3>Example</h3>
+  <p>A bucket swings in a circle with r = 0.80 m.<br>v<sub>min</sub> = &radic;((9.8)(0.80)) = &radic;7.84 = <b>2.8 m/s</b></p>
+  <p>Any faster and the bucket pushes on the water too, so it stays in. Any slower and the water falls out of the circle.</p>
+  <div class="watch"><b>Watch out:</b> the water is not pushed up by a centrifugal force. It is falling the whole time. The bucket is just moving fast enough to stay underneath it.</div>
+</div></section>
+
+<section id="submit"><div class="num" aria-hidden="true"></div><div class="content">
+  <h2>Submit your notes in Canvas</h2>
+  <ol class="submit">
+    <li>Check that boxes 1 through 6 in your guided notes are filled in, including your final bucket explanation in box 6.</li>
+    <li>Take a clear photo of each notes page (pages 2 and 3 of your booklet). Lay the booklet flat in good light and make sure every word is readable.</li>
+    <li>In Canvas, open the <b>Uniform Circular Motion Guided Notes</b> assignment and select <b>Start Assignment</b>.</li>
+    <li>Choose <b>File Upload</b> and add both photos. In the Canvas Student app, you can take the photos right from the upload screen.</li>
+    <li>Select <b>Submit Assignment</b>. Look for the submitted confirmation before you leave the page.</li>
+  </ol>
+  <div class="watch"><b>Watch out:</b> keep your paper booklet. You will use the cover page to track your week, and it is your study guide for the readiness check.</div>
+</div></section>
+</main>
+<footer>Lesson 5.1 Uniform Circular Motion. TEKS P.5D, P.5F. If a video or simulation will not load at school, use its "Open" link instead.</footer>
+
+<script>
+document.querySelectorAll('.media').forEach(m=>{
+  const yt=m.dataset.yt, sim=m.dataset.sim;
+  const url=yt?`https://www.youtube-nocookie.com/embed/${yt}?rel=0`:sim;
+  const ext=yt?`https://www.youtube.com/watch?v=${yt}`:sim;
+  const label=yt?'Play here':'Open here';
+  m.innerHTML=`<div class="media-head"><div class="t">${m.dataset.title}<span class="s">${m.dataset.sub}</span></div>
+    <div class="btns"><button type="button">${label}</button><a class="btn ghost" href="${ext}" target="_blank" rel="noopener">${yt?'Open on YouTube':'Open in new tab'}</a></div></div>
+    <div class="frame${sim?' tall':''}" hidden></div>`;
+  const b=m.querySelector('button'),f=m.querySelector('.frame');
+  b.addEventListener('click',()=>{
+    if(f.hidden){f.innerHTML=`<iframe src="${url}" title="${m.dataset.title}" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;f.hidden=false;b.textContent='Close'}
+    else{f.innerHTML='';f.hidden=true;b.textContent=label}
+  });
+});
+</script>
+</body>
+</html>
